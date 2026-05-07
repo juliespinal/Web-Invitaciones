@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis 15 | Uma Ponce</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Parisienne&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <div id="welcome-screen" class="welcome">
+        <div class="welcome__overlay"></div>
+        <div class="welcome__content">
+            <h1 class="welcome__title">Mis quince</h1>
+            <p class="welcome__text">Hay momentos inolvidables que se atesoran en el corazón para siempre. ¡Acompáñame a
+                celebrar esta noche mágica!</p>
+            <button id="enter-button" class="btn btn--primary">INGRESAR</button>
+        </div>
+    </div>
+
+    <header class="hero">
+        <div class="hero__overlay"></div>
+        <div class="hero__content" data-aos="zoom-in" data-aos-duration="1000">
+            <h2 class="hero__pretitle">Mis 15 Años</h2>
+            <h1 class="hero__title">Uma Ponce</h1>
+            <p class="hero__subtitle">¡Comienza la cuenta regresiva!</p>
+        </div>
+    </header>
+
+    <section class="countdown-section">
+        <div class="countdown-container" data-aos="fade-up">
+            <h3 class="section-title text-center">Faltan...</h3>
+            <div class="countdown" id="countdown">
+                <div class="countdown__box"><span id="cd-days">00</span>
+                    <p>DÍAS</p>
+                </div>
+                <div class="countdown__box"><span id="cd-hours">00</span>
+                    <p>HS</p>
+                </div>
+                <div class="countdown__box"><span id="cd-minutes">00</span>
+                    <p>MIN</p>
+                </div>
+                <div class="countdown__box"><span id="cd-seconds">00</span>
+                    <p>SEG</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="location-section py-section">
+        <div class="container text-center">
+            <h3 class="section-title" data-aos="fade-up">¿Dónde y Cuándo?</h3>
+
+            <div class="info-card mx-auto" data-aos="fade-up">
+                <lord-icon src="https://cdn.lordicon.com/abmllwxh.json" trigger="loop" state="hover-jump" delay="1000"
+                    colors="primary:#013624,secondary:#c2a990" style="width:80px;height:80px"></lord-icon>
+
+                <h4>LA FIESTA</h4>
+                <p><strong>Fecha:</strong> Sábado 22 de Mayo de 2027</p>
+                <p><strong>Horario:</strong> 21:00 hs</p>
+                <p><strong>Lugar:</strong> Salón "Los Álamos"</p>
+                <p><strong>Dirección:</strong> Av. Siempre Viva 1234, Ciudad</p>
+
+                <button class="btn btn--outline open-modal mt-3" data-modal="modal-mapa">¿CÓMO LLEGAR?</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="dresscode-section py-section" data-aos="fade-up">
+        <div class="container text-center">
+            <lord-icon src="https://cdn.lordicon.com/wcjauznf.json" trigger="loop" delay="2000"
+                colors="primary:#013624,secondary:#c2a990" style="width:80px;height:80px"></lord-icon>
+
+            <h3 class="section-title">Dress Code</h3>
+            <h4 class="dresscode-style">Elegante</h4>
+
+            <p class="dresscode-desc">El único color 'verde inglés' será reservado para la quinceañera de forma
+                exclusiva.</p>
+
+            <div class="color-circle-wrapper">
+                <div class="color-circle"></div>
+                <span>Verde Inglés</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="gifts-section py-section">
+        <div class="container text-center" data-aos="fade-up">
+            <lord-icon src="https://cdn.lordicon.com/redeqcys.json" trigger="loop" state="hover-gift" delay="500"
+                colors="primary:#013624,secondary:#c2a990" style="width:80px;height:80px"></lord-icon>
+
+            <h3 class="section-title">Regalos</h3>
+            <p class="dresscode-desc mx-auto">Mi mayor regalo es tu presencia. Pero si deseas ayudarme con mis sueños,
+                aquí tienes mi cuenta.</p>
+            <button class="btn btn--outline open-modal" data-modal="modal-regalos">VER DATOS BANCARIOS</button>
+        </div>
+    </section>
+
+    <section class="gallery-section py-section">
+        <div class="container text-center">
+            <h3 class="section-title" data-aos="fade-down">Nuestros Momentos</h3>
+            <p class="gallery-instructions" data-aos="fade-down"><em>(Desliza las fotos hacia los lados)</em></p>
+
+            <div class="polaroid-container" id="polaroid-stack" data-aos="zoom-in">
+                <div class="polaroid">
+                    <img src="https://images.unsplash.com/photo-1516934823908-16e6f54c9c1c?auto=format&fit=crop&w=500&q=80"
+                        alt="Uma 3">
+                </div>
+                <div class="polaroid">
+                    <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=500&q=80"
+                        alt="Uma 2">
+                </div>
+                <div class="polaroid">
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953eb1b5ae?auto=format&fit=crop&w=500&q=80"
+                        alt="Uma 1">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="rsvp-section py-section">
+        <div class="container text-center" data-aos="fade-up">
+            <lord-icon src="https://cdn.lordicon.com/tkgyceqk.json" trigger="loop" delay="1500"
+                colors="primary:#c2a990,secondary:#ffffff" style="width:80px;height:80px"></lord-icon>
+
+            <h3 class="section-title title-light">Confirmar Asistencia</h3>
+            <p class="subtitle-light">Por favor confirmá antes del 1 de Mayo.</p>
+
+            <form id="rsvp-form" class="rsvp-form" action="#" method="POST">
+                <div class="form-group">
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre y Apellido" required>
+                </div>
+
+                <div class="form-group radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="asistencia" value="Asisto" required>
+                        <span class="custom-radio"></span> ¡Sí, asisto!
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="asistencia" value="No asisto">
+                        <span class="custom-radio"></span> No puedo asistir
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="mensaje" name="mensaje" rows="4" placeholder="Mensaje para mi (opcional)"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">ENVIAR CONFIRMACIÓN</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="spotify-section py-section">
+        <div class="container text-center" data-aos="fade-up">
+            <lord-icon src="https://cdn.lordicon.com/xhebrhsj.json" trigger="loop" state="hover-jump" delay="500"
+                colors="primary:#013624,secondary:#c2a990" style="width:80px;height:80px"></lord-icon>
+
+            <h3 class="section-title">¡Hagamos la playlist juntos!</h3>
+            <p class="dresscode-desc mx-auto">Agregá esas canciones que no pueden faltar para que bailemos toda la
+                noche.</p>
+
+            <a href="TU_ENLACE_A_SPOTIFY" target="_blank" class="btn btn--outline mt-3"><i class="fab fa-spotify"></i>
+                IR A SPOTIFY</a>
+        </div>
+    </section>
+
+    <div id="modal-mapa" class="modal">
+        <div class="modal__content">
+            <button class="modal__close">&times;</button>
+            <h3 style="margin-bottom: 15px; color: var(--color-primary); font-family: var(--font-body);">¿Cómo llegar?
+            </h3>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.0168878894506!2d-58.3815704!3d-34.6037389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4aa9f0a6da5edb%3A0x11be6b7d4bb53372!2sObelisco!5e0!3m2!1ses-419!2sar!4v1710000000000!5m2!1ses-419!2sar"
+                width="100%" height="350" style="border:0; border-radius: 8px;" allowfullscreen=""
+                loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div id="modal-regalos" class="modal">
+        <div class="modal__content modal__content--dark">
+            <button class="modal__close">&times;</button>
+            <h3 style="margin-bottom: 15px;">Datos Bancarios</h3>
+            <p><strong>Alias:</strong> UMA.MIS15</p>
+            <p><strong>CBU:</strong> 0000000000000000000</p>
+            <p><strong>Titular:</strong> Uma Ponce</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
