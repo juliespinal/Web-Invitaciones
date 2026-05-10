@@ -512,6 +512,14 @@ img {
     opacity: 0;
 }
 
+.hide-polaroid {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: none !important;
+    /* Desactivamos transición para que vuelva al centro invisible */
+    transform: scale(0.5) !important;
+}
+
 /* =========================================
    RSVP (FORMULARIO)
    ========================================= */
@@ -601,10 +609,13 @@ img {
 }
 
 .radio-label input[type="radio"] {
-    position: absolute; 
-    opacity: 0; 
-    width: 0; 
-    height: 0; 
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
 }
 
 .custom-radio {
@@ -701,6 +712,37 @@ img {
     cursor: pointer;
 }
 
+#modal-regalos .modal__content {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+#modal-regalos h3 {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    color: var(--color-accent);
+    margin-bottom: 30px;
+    font-weight: normal;
+}
+
+#modal-regalos p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+#modal-regalos strong {
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
 /* =========================================
    FORMULARIO (NUEVOS CAMPOS)
    ========================================= */
@@ -763,4 +805,37 @@ img {
 /* Clase auxiliar para ocultar suavemente */
 .hidden {
     display: none !important;
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+.main-footer {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px 20px;
+}
+
+.footer-title {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    font-weight: normal;
+}
+
+.footer-credits {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-credits a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.footer-credits a:hover {
+    color: #fff;
 }

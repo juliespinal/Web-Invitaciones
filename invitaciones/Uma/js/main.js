@@ -61,110 +61,131 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
             const modalId = trigger.getAttribute('data-modal');
             document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden'; // BLOQUEA SCROLL DEL FONDO
         });
     });
 
     closeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             btn.closest('.modal').classList.remove('active');
+            document.body.style.overflow = 'auto'; // REACTIVA SCROLL
         });
     });
 
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
             e.target.classList.remove('active');
+            document.body.style.overflow = 'auto'; // REACTIVA SCROLL
         }
     });
 
 
-    // 5. LÓGICA DE GALERÍA POLAROID (SWIPE)
+    // ==========================================
+    // 5. LÓGICA DE GALERÍA POLAROID (NUEVA VERSIÓN BLINDADA)
+    // ==========================================
     const stack = document.getElementById('polaroid-stack');
-    let cards = Array.from(stack.querySelectorAll('.polaroid'));
-
+    const cards = Array.from(stack.querySelectorAll('.polaroid'));
     let isDragging = false;
     let startX = 0;
     let currentX = 0;
     let activeCard = null;
+    let swipeCount = 0;
 
-    function initCards() {
-        const cards = Array.from(stack.querySelectorAll('.polaroid'));
-        cards.forEach((card, index) => {
-            // Asignamos el z-index según el orden en el DOM
+    function initCards(mezclar = false) {
+        if (mezclar) {
+            // Mezclamos aleatoriamente y volvemos a inyectar en el HTML
+            cards.sort(() => Math.random() - 0.5);
+            cards.forEach(card => stack.appendChild(card));
+        }
+
+        // Recalculamos basándonos en el orden real que tienen en el HTML
+        const currentCards = stack.querySelectorAll('.polaroid');
+        currentCards.forEach((card, index) => {
             card.style.zIndex = index;
-            card.classList.remove('fly-out-right', 'fly-out-left', 'dragging');
-            card.style.transform = ''; // Limpiamos la transformación anterior
+            card.classList.remove('fly-out-right', 'fly-out-left', 'hide-polaroid', 'dragging');
+            card.style.transform = '';
 
-            // Volvemos a aplicar la rotación de acuerdo a su nueva posición
-            if (index === 0) card.style.transform = "rotate(-5deg) translateX(-10px)";
-            if (index === 1) card.style.transform = "rotate(3deg) translateX(10px)";
-            if (index === 2) card.style.transform = "rotate(-2deg)";
+            const randomRot = Math.floor(Math.random() * 14) - 7;
+            const randomX = Math.floor(Math.random() * 20) - 10;
 
-            // Limpiamos eventos viejos por las dudas
-            card.removeEventListener('touchstart', dragStart);
-            card.removeEventListener('mousedown', dragStart);
-        });
-
-        // Solo le damos la habilidad de arrastrar a la tarjeta que quedó arriba (la última del DOM)
-        if (cards.length > 0) {
-            const topCard = cards[cards.length - 1];
-            topCard.addEventListener('touchstart', dragStart, { passive: true });
-            topCard.addEventListener('mousedown', dragStart);
-        }
-    }
-
-    function dragStart(e) {
-        if (e.target.tagName.toLowerCase() === 'img') e.preventDefault();
-        isDragging = true;
-        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-        this.classList.add('dragging');
-    }
-
-    function dragMove(e) {
-        if (!isDragging) return;
-        const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-        currentX = x - startX;
-        const rotate = currentX * 0.1; // Gira un poquito según cuánto la arrastrás
-
-        const topCard = stack.lastElementChild;
-        topCard.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
-    }
-
-    function dragEnd() {
-        if (!isDragging) return;
-        isDragging = false;
-
-        const topCard = stack.lastElementChild;
-        topCard.classList.remove('dragging');
-
-        const threshold = 100; // Distancia para considerar que se descartó
-
-        if (Math.abs(currentX) > threshold) {
-            // Vuela hacia la derecha o izquierda
-            if (currentX > 0) topCard.classList.add('fly-out-right');
-            else topCard.classList.add('fly-out-left');
-
-            // Esperamos que termine la animación de CSS (400ms) y la mandamos al fondo
+            // Efecto cascada al reacomodarse
             setTimeout(() => {
-                stack.prepend(topCard); // prepend mueve el div al principio del contenedor (fondo de la pila)
-                initCards(); // Re-calculamos todo para que el loop siga
-            }, 400);
-
-        } else {
-            // Si la soltó antes del umbral, vuelve a su lugar original
-            topCard.style.transform = "rotate(-2deg)";
-        }
-        currentX = 0;
+                card.style.transform = `translateX(${randomX}px) rotate(${randomRot}deg)`;
+            }, index * 100);
+        });
     }
 
-    // Los eventos de mover y soltar van al documento para que no se corte si el mouse sale rápido de la foto
+    // Le pegamos los eventos de inicio SOLO a las tarjetas, una sola vez
+    cards.forEach(card => {
+        card.addEventListener('touchstart', dragStart, { passive: true });
+        card.addEventListener('mousedown', dragStart);
+    });
+
+    // Los eventos de movimiento y soltar van al documento general
     document.addEventListener('touchmove', dragMove, { passive: false });
     document.addEventListener('touchend', dragEnd);
     document.addEventListener('mousemove', dragMove);
     document.addEventListener('mouseup', dragEnd);
 
-    // Inicializamos por primera vez
-    initCards();
+    function dragStart(e) {
+        // La magia acá: SOLO permitimos mover la tarjeta que está visualmente arriba (la última del HTML)
+        if (e.currentTarget !== stack.lastElementChild) return;
+        if (e.target.tagName.toLowerCase() === 'img') e.preventDefault();
 
+        activeCard = e.currentTarget;
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        activeCard.classList.add('dragging');
+    }
+
+    function dragMove(e) {
+        if (!isDragging || !activeCard) return;
+        const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        currentX = x - startX;
+        const rotate = currentX * 0.1;
+        activeCard.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+    }
+
+    function dragEnd(e) {
+        if (!isDragging || !activeCard) return;
+        isDragging = false;
+        activeCard.classList.remove('dragging');
+
+        const threshold = 100; // Si movés la foto más de 100px, se va
+
+        if (Math.abs(currentX) > threshold) {
+            if (currentX > 0) activeCard.classList.add('fly-out-right');
+            else activeCard.classList.add('fly-out-left');
+
+            const cardOut = activeCard;
+            setTimeout(() => {
+                cardOut.classList.add('hide-polaroid');
+                stack.prepend(cardOut); // Manda la tarjeta descartada al fondo de la pila del HTML
+
+                swipeCount++;
+
+                // Reacomodamos el z-index de las que quedan
+                const currentCards = stack.querySelectorAll('.polaroid');
+                currentCards.forEach((c, i) => c.style.zIndex = i);
+
+                // Si ya tiramos todas, reseteamos el contador y las hacemos volver
+                if (swipeCount >= cards.length) {
+                    swipeCount = 0;
+                    setTimeout(() => initCards(true), 500); // Medio segundo de suspenso y vuelven
+                }
+            }, 400); // 400ms es lo que tarda la animación de CSS en sacarla de pantalla
+
+        } else {
+            // Si la soltó antes del umbral, vuelve a una posición random
+            const randomRot = Math.floor(Math.random() * 10) - 5;
+            activeCard.style.transform = `rotate(${randomRot}deg)`;
+        }
+
+        activeCard = null;
+        currentX = 0;
+    }
+
+    initCards(false);
     // ==========================================
     // 6. LÓGICA DEL FORMULARIO Y GOOGLE SHEETS
     // ==========================================
@@ -234,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // B. Envío de datos a Google Apps Script
     const rsvpForm = document.getElementById('rsvp-form');
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbz8Xefial5-GKQ4QFIe7LpSfnyxcUdY-wtinjJBvEHpgAiln854cJ_MDQGfkJI1u-BeAQ/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx47HzGEsN1f-DbMycItV6Nf0PtZ3T6iFEoO9rxrQPgZDeXq9nr_Gh_E4aMUNKDDTN31g/exec';
 
     if (rsvpForm) {
         rsvpForm.addEventListener('submit', function (e) {
