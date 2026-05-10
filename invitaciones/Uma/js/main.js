@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const welcomeScreen = document.getElementById('welcome-screen');
     const enterBtn = document.getElementById('enter-button');
 
+
     // Deshabilitar scroll mientras está el welcome
     document.body.style.overflow = 'hidden';
 
@@ -158,23 +159,100 @@ document.addEventListener("DOMContentLoaded", function () {
 
     initCards();
 
-    // 6. RSVP FORM SUBMIT (Preparado para el AppScript)
+    // ==========================================
+    // 6. LÓGICA DEL FORMULARIO Y GOOGLE SHEETS
+    // ==========================================
+
+    const radioAsisteSi = document.getElementById('asiste-si');
+    const radioAsisteNo = document.getElementById('asiste-no');
+    const grupoAcompanado = document.getElementById('grupo-acompanado');
+    const grupoAlimentacion = document.getElementById('grupo-alimentacion');
+
+    const radioAcompanadoSi = document.getElementById('acompanado-si');
+    const radioAcompanadoNo = document.getElementById('acompanado-no');
+    const grupoAcompanantes = document.getElementById('grupo-acompanantes');
+    const inputAcompanantes = document.getElementById('acompanante');
+
+    // Función 1: Controlar si viene acompañado o no
+    function toggleAcompanantes() {
+        if (radioAcompanadoSi.checked) {
+            grupoAcompanantes.classList.remove('hidden');
+            inputAcompanantes.setAttribute('required', 'true');
+        } else {
+            grupoAcompanantes.classList.add('hidden');
+            inputAcompanantes.removeAttribute('required');
+            inputAcompanantes.value = '';
+        }
+    }
+
+    // Función 2: Controlar si asiste o no asiste
+    function toggleAsistencia() {
+        if (radioAsisteNo.checked) {
+            // Ocultar todo
+            if (grupoAcompanado) grupoAcompanado.classList.add('hidden');
+            if (grupoAcompanantes) grupoAcompanantes.classList.add('hidden');
+            if (grupoAlimentacion) grupoAlimentacion.classList.add('hidden');
+
+            // Quitar los required
+            if (radioAcompanadoSi) radioAcompanadoSi.removeAttribute('required');
+            if (inputAcompanantes) inputAcompanantes.removeAttribute('required');
+
+            // Limpiar datos
+            if (radioAcompanadoSi) radioAcompanadoSi.checked = false;
+            if (radioAcompanadoNo) radioAcompanadoNo.checked = false;
+            if (inputAcompanantes) inputAcompanantes.value = '';
+            if (document.getElementById('alimento')) document.getElementById('alimento').value = 'Ninguna';
+
+        } else {
+            // Mostrar los grupos base
+            if (grupoAcompanado) grupoAcompanado.classList.remove('hidden');
+            if (grupoAlimentacion) grupoAlimentacion.classList.remove('hidden');
+
+            // Volver a requerir si viene acompañado
+            if (radioAcompanadoSi) radioAcompanadoSi.setAttribute('required', 'true');
+
+            toggleAcompanantes();
+        }
+    }
+
+    // Escuchadores
+    if (radioAsisteSi && radioAsisteNo) {
+        radioAsisteSi.addEventListener('change', toggleAsistencia);
+        radioAsisteNo.addEventListener('change', toggleAsistencia);
+    }
+
+    if (radioAcompanadoSi && radioAcompanadoNo) {
+        radioAcompanadoSi.addEventListener('change', toggleAcompanantes);
+        radioAcompanadoNo.addEventListener('change', toggleAcompanantes);
+    }
+
+    // B. Envío de datos a Google Apps Script
     const rsvpForm = document.getElementById('rsvp-form');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbz8Xefial5-GKQ4QFIe7LpSfnyxcUdY-wtinjJBvEHpgAiln854cJ_MDQGfkJI1u-BeAQ/exec';
 
-    rsvpForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-        const btn = rsvpForm.querySelector('.btn-submit');
-        const originalText = btn.innerText;
-        btn.innerText = "ENVIANDO...";
-        btn.disabled = true;
+            const btn = rsvpForm.querySelector('.btn-submit');
+            const originalText = btn.innerText;
+            btn.innerText = "ENVIANDO...";
+            btn.disabled = true;
 
-        // Simulamos envío. Acá pondremos el fetch a tu web app de Google
-        setTimeout(() => {
-            alert("¡Gracias por confirmar! Tu respuesta fue enviada.");
-            rsvpForm.reset();
-            btn.innerText = originalText;
-            btn.disabled = false;
-        }, 1500);
-    });
+            fetch(scriptURL, { method: 'POST', body: new FormData(rsvpForm) })
+                .then(response => {
+                    alert("¡Gracias por confirmar! Tu respuesta fue enviada exitosamente.");
+                    rsvpForm.reset();
+                    if (grupoAcompanantes) grupoAcompanantes.classList.add('hidden');
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    alert("Hubo un problema al enviar la confirmación. Por favor, intentá nuevamente.");
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                });
+        });
+    };
 });

@@ -122,7 +122,7 @@ img {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    background: url('../assets/img/uma_background_home.png') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -172,7 +172,7 @@ img {
 .hero {
     position: relative;
     height: 100vh;
-    background: url('https://images.unsplash.com/photo-1541250848049-b4f71426cadb?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    background: url('../assets/img/umi_test_1.jpg') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -276,27 +276,128 @@ img {
 /* =========================================
    LÍNEA DE TIEMPO (DÓNDE Y CUÁNDO)
    ========================================= */
-.timeline-section { background-color: var(--color-text-light); }
-.timeline { position: relative; max-width: 900px; margin: 40px auto 0; padding: 20px 0; }
+.timeline-section {
+    background-color: var(--color-text-light);
+}
+
+.timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 40px auto 0;
+    padding: 20px 0;
+}
 
 /* MOBILE: Línea vertical a la izquierda */
-.timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 4px; background: var(--color-accent); border-radius: 2px; }
-.timeline__item { position: relative; padding-left: 50px; margin-bottom: 50px; text-align: left; }
-.timeline__item:last-child { margin-bottom: 0; }
-.timeline__marker { position: absolute; left: -2px; top: 0; width: 48px; height: 48px; border-radius: 50%; background: var(--color-primary); color: var(--color-text-light); display: flex; justify-content: center; align-items: center; border: 4px solid var(--color-text-light); z-index: 2; font-size: 1.2rem; }
-.timeline__content { background: var(--color-bg-light); padding: 30px 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border: 1px solid #eaeaea; transition: transform 0.3s ease; }
-.timeline__content:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-.timeline__title { font-family: var(--font-heading); font-size: 2.5rem; color: var(--color-primary); margin-bottom: 15px; font-weight: normal; line-height: 1; }
-.timeline__detail { font-size: 1rem; color: #555; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-.timeline__detail i { width: 20px; text-align: center; }
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-accent);
+    border-radius: 2px;
+}
+
+.timeline__item {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 50px;
+    text-align: left;
+}
+
+.timeline__item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline__marker {
+    position: absolute;
+    left: -2px;
+    top: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid var(--color-text-light);
+    z-index: 2;
+    font-size: 1.2rem;
+}
+
+.timeline__content {
+    background: var(--color-bg-light);
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eaeaea;
+    transition: transform 0.3s ease;
+}
+
+.timeline__content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.timeline__title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 15px;
+    font-weight: normal;
+    line-height: 1;
+}
+
+.timeline__detail {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.timeline__detail i {
+    width: 20px;
+    text-align: center;
+}
 
 /* DESKTOP: Línea horizontal */
 @media (min-width: 768px) {
-    .timeline { display: flex; justify-content: center; gap: 40px; padding: 40px 0 0 0; }
-    .timeline::before { left: 0; top: 20px; bottom: auto; height: 4px; width: 100%; }
-    .timeline__item { flex: 1; padding-left: 0; padding-top: 60px; margin-bottom: 0; text-align: center; }
-    .timeline__marker { left: 50%; transform: translateX(-50%); top: -4px; }
-    .timeline__detail { justify-content: center; }
+    .timeline {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        padding: 40px 0 0 0;
+    }
+
+    .timeline::before {
+        left: 0;
+        top: 20px;
+        bottom: auto;
+        height: 4px;
+        width: 100%;
+    }
+
+    .timeline__item {
+        flex: 1;
+        padding-left: 0;
+        padding-top: 60px;
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    .timeline__marker {
+        left: 50%;
+        transform: translateX(-50%);
+        top: -4px;
+    }
+
+    .timeline__detail {
+        justify-content: center;
+    }
 }
 
 .dresscode-section,
@@ -429,9 +530,35 @@ img {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 35px;
+    /* Le damos mucho más respiro abajo */
+    padding-bottom: 25px;
+    /* Espacio interno antes de la línea */
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+    /* Separador visual sutil */
     text-align: left;
 }
+
+/* El último elemento no necesita la línea separadora */
+.form-group:last-of-type {
+    border-bottom: none;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.95rem;
+    /* Mejor lectura */
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: 15px;
+    /* Más despegado del input/radio */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
 
 .form-group input[type="text"],
 .form-group textarea {
@@ -478,11 +605,12 @@ img {
 }
 
 .custom-radio {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    /* Más grande para que sea fácil hacer tap */
+    height: 26px;
     border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 50%;
-    margin-right: 15px;
+    margin-right: 12px;
     display: inline-block;
     position: relative;
     transition: all 0.3s;
@@ -498,8 +626,8 @@ img {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     background: var(--color-accent);
     border-radius: 50%;
 }
@@ -568,4 +696,68 @@ img {
     border: none;
     color: inherit;
     cursor: pointer;
+}
+
+/* =========================================
+   FORMULARIO (NUEVOS CAMPOS)
+   ========================================= */
+.form-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Alinear Radios en fila */
+.radio-group--row {
+    flex-direction: row !important;
+    gap: 30px !important;
+    margin-top: 10px !important;
+}
+
+/* Custom Select */
+.select-wrapper {
+    position: relative;
+}
+
+.custom-select {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: var(--color-text-light);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.custom-select:focus {
+    outline: none;
+    border-bottom-color: var(--color-accent);
+}
+
+/* Para que las opciones del select se vean bien en sistemas operativos claros */
+.custom-select option {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.select-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-accent);
+    pointer-events: none;
+}
+
+/* Clase auxiliar para ocultar suavemente */
+.hidden {
+    display: none !important;
 }
