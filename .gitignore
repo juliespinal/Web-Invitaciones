@@ -1,0 +1,52 @@
+# =======================================================
+# .gitignore MAESTRO - Web de Invitaciones
+# =======================================================
+
+# 1. Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# 2. Entornos de Desarrollo / editores de código
+.vscode/
+.idea/
+*.suo
+*.ntvs
+*.njsproj
+*.sln
+
+# 3. Node.js y Backend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json # Si empleo yarn se ignora. Si uso npm, quito la linea.
+
+# 4. Variables de Entorno y secrets
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.pem
+.clasp.json # Si uso CLASP para AppScript, este archivo tiene mis credenciales
+
+# 5. Bases de Datos y docker
+/backend/data/
+/backend/db-data/
+/backend/pgdata/
+/backend/mysql-data/
+*.sqlite3
+*.db
+
+# 6. Álbum en Tiempo Real
+/backend/uploads/
+/backend/temp/
+*.log
+
+# 7. Logs y Compilados
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
