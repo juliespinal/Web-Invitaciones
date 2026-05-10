@@ -87,76 +87,82 @@ document.addEventListener("DOMContentLoaded", function () {
     let activeCard = null;
 
     function initCards() {
+        const cards = Array.from(stack.querySelectorAll('.polaroid'));
         cards.forEach((card, index) => {
+            // Asignamos el z-index según el orden en el DOM
             card.style.zIndex = index;
             card.classList.remove('fly-out-right', 'fly-out-left', 'dragging');
+            card.style.transform = ''; // Limpiamos la transformación anterior
 
-            // Rotaciones base de las 3 fotos
+            // Volvemos a aplicar la rotación de acuerdo a su nueva posición
             if (index === 0) card.style.transform = "rotate(-5deg) translateX(-10px)";
             if (index === 1) card.style.transform = "rotate(3deg) translateX(10px)";
             if (index === 2) card.style.transform = "rotate(-2deg)";
+
+            // Limpiamos eventos viejos por las dudas
+            card.removeEventListener('touchstart', dragStart);
+            card.removeEventListener('mousedown', dragStart);
         });
-        bindEventsToTopCard();
-    }
 
-    function bindEventsToTopCard() {
-        if (cards.length === 0) {
-            setTimeout(() => {
-                cards = Array.from(stack.querySelectorAll('.polaroid'));
-                initCards();
-            }, 800);
-            return;
+        // Solo le damos la habilidad de arrastrar a la tarjeta que quedó arriba (la última del DOM)
+        if (cards.length > 0) {
+            const topCard = cards[cards.length - 1];
+            topCard.addEventListener('touchstart', dragStart, { passive: true });
+            topCard.addEventListener('mousedown', dragStart);
         }
-
-        activeCard = cards[cards.length - 1];
-
-        activeCard.addEventListener('touchstart', dragStart, { passive: true });
-        document.addEventListener('touchmove', dragMove, { passive: false });
-        document.addEventListener('touchend', dragEnd);
-
-        activeCard.addEventListener('mousedown', dragStart);
-        document.addEventListener('mousemove', dragMove);
-        document.addEventListener('mouseup', dragEnd);
     }
 
     function dragStart(e) {
         if (e.target.tagName.toLowerCase() === 'img') e.preventDefault();
         isDragging = true;
         startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-        activeCard.classList.add('dragging');
+        this.classList.add('dragging');
     }
 
     function dragMove(e) {
         if (!isDragging) return;
         const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
         currentX = x - startX;
-        const rotate = currentX * 0.1;
-        activeCard.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+        const rotate = currentX * 0.1; // Gira un poquito según cuánto la arrastrás
+
+        const topCard = stack.lastElementChild;
+        topCard.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
     }
 
     function dragEnd() {
         if (!isDragging) return;
         isDragging = false;
-        activeCard.classList.remove('dragging');
 
-        const threshold = 100;
+        const topCard = stack.lastElementChild;
+        topCard.classList.remove('dragging');
+
+        const threshold = 100; // Distancia para considerar que se descartó
 
         if (Math.abs(currentX) > threshold) {
-            if (currentX > 0) activeCard.classList.add('fly-out-right');
-            else activeCard.classList.add('fly-out-left');
+            // Vuela hacia la derecha o izquierda
+            if (currentX > 0) topCard.classList.add('fly-out-right');
+            else topCard.classList.add('fly-out-left');
 
-            activeCard.removeEventListener('touchstart', dragStart);
-            activeCard.removeEventListener('mousedown', dragStart);
-
-            cards.pop();
-            bindEventsToTopCard();
+            // Esperamos que termine la animación de CSS (400ms) y la mandamos al fondo
+            setTimeout(() => {
+                stack.prepend(topCard); // prepend mueve el div al principio del contenedor (fondo de la pila)
+                initCards(); // Re-calculamos todo para que el loop siga
+            }, 400);
 
         } else {
-            activeCard.style.transform = "rotate(-2deg)";
+            // Si la soltó antes del umbral, vuelve a su lugar original
+            topCard.style.transform = "rotate(-2deg)";
         }
         currentX = 0;
     }
 
+    // Los eventos de mover y soltar van al documento para que no se corte si el mouse sale rápido de la foto
+    document.addEventListener('touchmove', dragMove, { passive: false });
+    document.addEventListener('touchend', dragEnd);
+    document.addEventListener('mousemove', dragMove);
+    document.addEventListener('mouseup', dragEnd);
+
+    // Inicializamos por primera vez
     initCards();
 
     // ==========================================
