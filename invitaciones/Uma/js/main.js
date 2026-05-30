@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 3. CUENTA REGRESIVA
     // Modificar fecha aquí (Mes Día, Año Horas:Min:Seg)
-    const targetDate = new Date("Aughust 15, 2026 19:00:00").getTime();
+    const targetDate = new Date("Aughust 09, 2026 19:00:00").getTime();
 
     const countdownInterval = setInterval(function () {
         const now = new Date().getTime();
