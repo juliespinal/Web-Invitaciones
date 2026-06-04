@@ -5,30 +5,44 @@ document.addEventListener("DOMContentLoaded", function () {
         AOS.init({ duration: 1000, once: true, offset: 50 });
     }
 
-    // 2. PANTALLA DE PRE-CARGA (WELCOME)
+        // 2. PANTALLA DE PRE-CARGA (WELCOME)
     const welcomeScreen = document.getElementById('welcome-screen');
     const enterBtn = document.getElementById('enter-button');
-
+    const bgMusic = document.getElementById('bg-music');
 
     // Deshabilitar scroll mientras está el welcome
     document.body.style.overflow = 'hidden';
 
-    enterBtn.addEventListener('click', function () {
-        // Ejecuta la animación de salida
-        welcomeScreen.classList.add('slide-out');
+    if (enterBtn && welcomeScreen) {
+        enterBtn.addEventListener('click', async function () {
 
-        // Reactiva el scroll principal
-        document.body.style.overflow = 'auto';
+            // Iniciar música al interactuar (evita bloqueo del navegador)
+            if (bgMusic) {
+                try {
+                    bgMusic.volume = 0.5;
+                    bgMusic.loop = true;
+                    await bgMusic.play();
+                } catch (error) {
+                    console.error('Error reproduciendo audio:', error);
+                }
+            }
 
-        // Destruye el nodo del DOM tras la animación (0.8s) para que no moleste
-        setTimeout(() => {
-            welcomeScreen.remove();
-        }, 800);
-    });
+            // Ejecuta la animación de salida
+            welcomeScreen.classList.add('slide-out');
+
+            // Reactiva el scroll principal
+            document.body.style.overflow = 'auto';
+
+            // Destruye el nodo del DOM tras la animación
+            setTimeout(() => {
+                welcomeScreen.remove();
+            }, 800);
+        });
+    }
 
     // 3. CUENTA REGRESIVA
     // Modificar fecha aquí (Mes Día, Año Horas:Min:Seg)
-    const targetDate = new Date("Aughust 09, 2026 19:00:00").getTime();
+    const targetDate = new Date(2026, 7, 9, 19, 0, 0).getTime();
 
     const countdownInterval = setInterval(function () {
         const now = new Date().getTime();

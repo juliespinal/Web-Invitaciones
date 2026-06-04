@@ -19,15 +19,27 @@
 
 <body>
 
-    <div id="welcome-screen" class="welcome">
-        <div class="welcome__overlay"></div>
-        <div class="welcome__content">
-            <h1 class="welcome__title">Mis quince</h1>
-            <p class="welcome__text">Hay momentos inolvidables que se atesoran en el corazón para siempre. <br>¡Acompañame a
-                celebrar esta noche mágica!</p>
-            <button id="enter-button" class="btn btn--primary">INGRESAR</button>
-        </div>
+<div id="welcome-screen" class="welcome">
+    <div class="welcome__overlay"></div>
+
+    <div class="welcome__content">
+        <h1 class="welcome__title">Mis quince</h1>
+
+        <p class="welcome__text">
+            Hay momentos inolvidables que se atesoran en el corazón para siempre.
+            <br>
+            ¡Acompañame a celebrar esta noche mágica!
+        </p>
+
+        <button id="enter-button" class="btn btn--primary">
+            INGRESAR
+        </button>
     </div>
+
+    <audio id="bg-music" preload="auto" loop>
+        <source src="./assets/audio/llegaste.mp3" type="audio/mpeg">
+    </audio>
+</div>
 
     <header class="hero">
         <div class="hero__overlay"></div>
@@ -247,7 +259,7 @@
                 noche.</p>
 
             <a href="https://open.spotify.com/playlist/3dqpxWgvVNvQgszE8uDifi?si=Qy2ARqRISGqq5w4rYnoC2Q&pt=31ae1893b9e4bdaaaedd53726ec85f4a&pi=OgWszOsTeKBc" target="_blank" class="btn btn--outline mt-3"><i class="fab fa-spotify"></i>
-                Irr a Spotify</a>
+                Ir a Spotify</a>
         </div>
     </section>
 
