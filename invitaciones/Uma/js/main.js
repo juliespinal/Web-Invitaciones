@@ -5,41 +5,83 @@ document.addEventListener("DOMContentLoaded", function () {
         AOS.init({ duration: 1000, once: true, offset: 50 });
     }
 
-        // 2. PANTALLA DE PRE-CARGA (WELCOME)
+    // 2. PANTALLA DE PRE-CARGA (WELCOME)
     const welcomeScreen = document.getElementById('welcome-screen');
     const enterBtn = document.getElementById('enter-button');
     const bgMusic = document.getElementById('bg-music');
 
-    // Deshabilitar scroll mientras está el welcome
+    const musicBtn = document.getElementById('musicButton');
+    const musicImage = document.getElementById('musicImage');
+
+    // Bloquear scroll al inicio
     document.body.style.overflow = 'hidden';
 
+    // Estado inicial
+    let musicStarted = false;
+
+    // BOTÓN MUTE / UNMUTE
+    if (musicBtn && bgMusic) {
+        musicBtn.addEventListener('click', function () {
+
+            // Si todavía no empezó, no hacer nada
+            if (!musicStarted) return;
+
+            // Toggle mute
+            bgMusic.muted = !bgMusic.muted;
+
+            // Cambiar imagen
+            if (bgMusic.muted) {
+                musicImage.src =
+                    'https://evnt.ar/assets/images/pause.png';
+            } else {
+                musicImage.src =
+                    'https://evnt.ar/assets/images/play.gif';
+            }
+        });
+    }
+
+    // BOTÓN INGRESAR
     if (enterBtn && welcomeScreen) {
         enterBtn.addEventListener('click', async function () {
 
-            // Iniciar música al interactuar (evita bloqueo del navegador)
+            // Iniciar música
             if (bgMusic) {
                 try {
-                    bgMusic.volume = 0.5;
+                    bgMusic.volume = 0.35;
                     bgMusic.loop = true;
+                    bgMusic.muted = false;
+
                     await bgMusic.play();
+
+                    musicStarted = true;
+
                 } catch (error) {
-                    console.error('Error reproduciendo audio:', error);
+                    console.error(
+                        'Error reproduciendo audio:',
+                        error
+                    );
                 }
             }
 
-            // Ejecuta la animación de salida
+            // Animación salida welcome
             welcomeScreen.classList.add('slide-out');
 
-            // Reactiva el scroll principal
+            // Reactivar scroll
             document.body.style.overflow = 'auto';
 
-            // Destruye el nodo del DOM tras la animación
+            // Mostrar botón de música
+            if (musicBtn) {
+                setTimeout(() => {
+                    musicBtn.classList.add('visible');
+                }, 500);
+            }
+
+            // Remover welcome
             setTimeout(() => {
                 welcomeScreen.remove();
             }, 800);
         });
     }
-
     // 3. CUENTA REGRESIVA
     // Modificar fecha aquí (Mes Día, Año Horas:Min:Seg)
     const targetDate = new Date(2026, 7, 9, 19, 0, 0).getTime();

@@ -847,3 +847,67 @@ img {
 .footer-credits a:hover {
     color: #fff;
 }
+
+/* =========================================
+   PLAYER DE MÚSICA
+   ========================================= */
+
+.player {
+    position: fixed;
+    right: 0;
+    top: 100px;
+    width: 68px;
+    height: 60px;
+    background: #fff;
+    border: none;
+    border-top-left-radius: 60px;
+    border-bottom-left-radius: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 7px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+    z-index: 9999;
+    cursor: pointer;
+
+    /* estado inicial */
+    opacity: 1;
+    transition:
+        transform .25s ease,
+        opacity .4s ease;
+}
+
+.player:hover {
+    transform: translateX(-4px);
+}
+
+.player .icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.player .icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+/* Estado oculto al cargar */
+.hidden-player {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(20px);
+}
+
+/* Estado visible luego de ingresar */
+.player.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
